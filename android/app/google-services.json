@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "104790745740",
-    "project_id": "salamati-b19ab",
-    "storage_bucket": "salamati-b19ab.appspot.com"
+    "project_number": "248415539081",
+    "project_id": "salamati-b2549",
+    "storage_bucket": "salamati-b2549.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:104790745740:android:136f886c9f18e8ea2591a9",
+        "mobilesdk_app_id": "1:248415539081:android:390f4f7ed4a1d86ab21b58",
         "android_client_info": {
           "package_name": "com.salamati"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCRsNMydapY1soplohrxKi_5WiGYGMuLiI"
+          "current_key": "AIzaSyBew6wRW2AZscbUM2LYdZReSOuZuPfzovM"
         }
       ],
       "services": {
