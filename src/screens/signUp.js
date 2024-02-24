@@ -11,30 +11,6 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-
-    // useEffect(() => {
-    //     // Req user for notification permission
-    //     requestNotificationPermission();
-    //   }, []);
-
-    // async function requestNotificationPermission() {
-    //     try {
-    //         const permissionStatus = await messaging().requestPermission();
-      
-    //         if (permissionStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-    //           // Permission granted
-    //           const fcmToken = await messaging().getToken();
-    //           console.log('FCM Token:', fcmToken);
-    //           // Send this token to the server (database)
-    //         } else if (permissionStatus === messaging.AuthorizationStatus.DENIED) {
-    //           // Permission denied
-    //           Alert.alert('Notification Permission Denied', 'You denied permission for notifications.');
-    //         }
-    //       } catch (error) {
-    //         console.error('Error requesting notification permission:', error);
-    //       }
-    //   }
-
     const signUp = async () => {
     try {
         const response=await auth().createUserWithEmailAndPassword(email, password);
