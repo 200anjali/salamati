@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Alert } from 'react-native';
 import Voice from '@react-native-voice/voice';
+import SOSContactDetailsScreen from './SOSContactDetailsScreen';
+
 
 const dict = ["help", "emergency", "urgent", "help me"];
 
-const HomeScreen = () => {
+
+const HomeScreen = ({ route, navigation }) => {
+  const { userId } = route.params;
   const [isListening, setIsListening] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
 
@@ -45,9 +49,14 @@ const HomeScreen = () => {
     }
   };
 
+  const callSOS=()=>{
+    navigation.navigate('SOSContactDetailsScreen',{userId:userId});
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Welcome to Home Screen!</Text>
+      <Button title='add contact details' onPress={callSOS}></Button>
       <Button title={isListening ? 'Stop Listening' : 'Start Listening'} onPress={isListening ? stopListening : startListening} />
       {recognizedText ? <Text>Recognized: {recognizedText}</Text> : null}
     </View>
