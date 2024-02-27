@@ -20,18 +20,12 @@ const App = () => {
     }
   };
 
-  // Function to calculate safe path based on crime data
   const calculateSafePath = () => {
-    // Implement your logic here to calculate the safe path
-    // This could involve processing the crime data and finding the route to the nearest safe place
-    // Once you have the safe path, update the state
-    const crimeLimitThreshold = 10; // Define your crime limit threshold
+   
+    const crimeLimitThreshold = 10; //crime limit threshold
     const unsafeAreas = crimeData.filter(crime => crime.count > crimeLimitThreshold);
     const safeAreas = crimeData.filter(crime => crime.count <= crimeLimitThreshold);
 
-    // Placeholder logic for safe path calculation
-    // This logic needs to be replaced with a proper pathfinding algorithm
-    // Here, we simply return a safe path connecting the first and last safe area coordinates
     const startCoordinate = { latitude: safeAreas[0].latitude, longitude: safeAreas[0].longitude };
     const endCoordinate = { latitude: safeAreas[safeAreas.length - 1].latitude, longitude: safeAreas[safeAreas.length - 1].longitude };
     const pathCoordinates = [startCoordinate, endCoordinate];
@@ -49,8 +43,6 @@ const App = () => {
             title={crime.title}
           />
         ))}
-
-        {/* Render safe path */}
         {safePath.length > 0 && (
           <Polyline
             coordinates={safePath}
