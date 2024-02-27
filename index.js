@@ -48,7 +48,6 @@ const AppWrapper = () => {
         console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
         Alert.alert(remoteMessage.notification.body);
         PushNotification.localNotification({
-          channelId: 'default-channel-id', // Specify the channel ID here
           title: remoteMessage.notification.title,
           message: remoteMessage.notification.body,
         });
@@ -60,19 +59,6 @@ const AppWrapper = () => {
   return <App />;
 };
 
-
-PushNotification.createChannel(
-    {
-      channelId: 'default-channel-id', // Specify the same channel ID as in FCMMessageHandler
-      channelName: 'Default Channel',
-      channelDescription: 'A default channel for notifications',
-      playSound: true,
-      soundName: 'default',
-      importance: 4, // Sets the default importance level for notifications
-      vibrate: true,
-    },
-    () => console.log('Channel created successfully'), // Callback when the channel is created
-  );
 
 initializeApp(); // Initialize Firebase
 AppRegistry.registerComponent(appName, () => AppWrapper); // Use AppWrapper as the registered component
