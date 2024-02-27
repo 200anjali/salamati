@@ -6,7 +6,9 @@ import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 
 const dict = ["help", "emergency", "urgent", "help me"];
 
-const HomeScreen = () => {
+
+const HomeScreen = ({ route, navigation }) => {
+  const { userId } = route.params;
   const [isListening, setIsListening] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
   const [restartInterval, setRestartInterval] = useState(null);
@@ -72,6 +74,10 @@ const HomeScreen = () => {
       console.error(error);
     }
   };
+
+  const callSOS=()=>{
+    navigation.navigate('SOSContactDetailsScreen',{userId:userId});
+  }
 
   return (
   
@@ -168,29 +174,5 @@ const HomeScreen = () => {
     // </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  subtitle: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  mapContainer: {
-    width: '80%',
-    height: 200,
-    backgroundColor: '#f0f0f0',
-    marginBottom: 20,
-  },
-});
 
 export default HomeScreen;
