@@ -1,0 +1,82 @@
+[
+    {
+        "location": {
+            "latitude": 34.0522,
+            "longitude": -118.2437
+        },
+        "crimeData": {
+            "crimeType": "Robbery",
+            "crimeCount": 15
+        }
+    },
+    {
+        "location": {
+            "latitude": 40.7128,
+            "longitude": -74.0060
+        },
+        "crimeData": {
+            "crimeType": "Burglary",
+            "crimeCount": 10
+        }
+    },
+    {
+        "location": {
+            "latitude": 41.8781,
+            "longitude": -87.6298
+        },
+        "crimeData": {
+            "crimeType": "Assault",
+            "crimeCount": 8
+        }
+    },
+    {
+        "location": {
+            "latitude": 51.5074,
+            "longitude": -0.1278
+        },
+        "crimeData": {
+            "crimeType": "Theft",
+            "crimeCount": 20
+        }
+    },
+    {
+        "location": {
+            "latitude": 45.4215,
+            "longitude": -75.6993
+        },
+        "crimeData": {
+            "crimeType": "Vandalism",
+            "crimeCount": 12
+        }
+    },
+    {
+        "location": {
+            "latitude": 35.6895,
+            "longitude": 139.6917
+        },
+        "crimeData": {
+            "crimeType": "Fraud",
+            "crimeCount": 18
+        }
+    },
+    {
+        "location": {
+            "latitude": -33.8688,
+            "longitude": 151.2093
+        },
+        "crimeData": {
+            "crimeType": "Drug Offense",
+            "crimeCount": 6
+        }
+    },
+    {
+        "location": {
+            "latitude": 51.1657,
+            "longitude": 10.4515
+        },
+        "crimeData": {
+            "crimeType": "Kidnapping",
+            "crimeCount": 5
+        }
+    }
+]

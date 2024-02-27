@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, Alert } from 'react-native';
 import Voice from '@react-native-voice/voice';
+import SafePathScreen from './safePathsScreen';
 
 const dict = ["help", "emergency", "urgent", "help me"];
 
@@ -49,7 +50,7 @@ const HomeScreen = () => {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Welcome to Home Screen!</Text>
       <Button title={isListening ? 'Stop Listening' : 'Start Listening'} onPress={isListening ? stopListening : startListening} />
-      <Button title={'Safe path'} />
+      <SafePathScreen/>
       {recognizedText ? <Text>Recognized: {recognizedText}</Text> : null}
     </View>
   );

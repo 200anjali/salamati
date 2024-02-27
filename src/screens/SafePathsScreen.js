@@ -1,53 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import { View, Text ,Button} from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import axios from 'axios';
 
-    const SafePathsScreen = () => {
+const App = () => {
     const [crimeData, setCrimeData] = useState([]);
-    const [safePaths, setSafePaths] = useState([]);
+    const [safePath, setSafePath] = useState([]);
 
     useEffect(() => {
-     // Fetch crime data from your Flask backend using Axios
-    axios.get('http://your-flask-api-endpoint/crime-data')
-        .then(response => setCrimeData(response.data))
-        .catch(error => console.error('Error fetching crime data:', error));
+    fetchCrimeData();
     }, []);
 
-  // Process crimeData to generate safePaths
-  // ...
+    const fetchCrimeData = async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/crime-data');
+        setCrimeData(response.data);
+    } catch (error) {
+        console.error('Error fetching crime data:', error);
+    }
+    };
+
+  // Function to calculate safe path based on crime data
+    const calculateSafePath = () => {
+    // Implement your logic here to calculate the safe path
+    // This could involve processing the crime data and finding the route to the nearest safe place
+    // Once you have the safe path, update the state
+    setSafePath(/* calculated safe path */);
+    };
 
     return (
     <View style={{ flex: 1 }}>
-        <MapView
-        style={{ flex: 1 }}
-        provider="mapbox"
-        mapType="standard"
-        region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }}
-    >
-        {/* Display markers for crime incidents */}
-        {crimeData.map(crime => (
+        <MapView style={{ flex: 1 }}>
+        {crimeData.map((crime, index) => (
             <Marker
-            key={crime.id}
+            key={index}
             coordinate={{ latitude: crime.latitude, longitude: crime.longitude }}
             title={crime.title}
             />
         ))}
 
-        {/* Display Polyline for safe paths */}
-        <Polyline
-            coordinates={safePaths}
-            strokeWidth={2}
-            strokeColor="green"
-        />
+        {safePath.map((point, index) => (
+            <Marker
+            key={index}
+            coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+            pinColor="green" // Customize pin color for safe path
+            />
+        ))}
         </MapView>
+
+        <View style={{ position: 'absolute', bottom: 0, alignSelf: 'center' }}>
+        <Button title="Calculate Safe Path" onPress={calculateSafePath} />
+        </View>
     </View>
     );
 };
 
-export default SafePathsScreen;
+export default App;

@@ -2,38 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
+
 
 const SignUpScreen = ({ navigation }) => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        // Req user for notification permission
-        requestNotificationPermission();
-      }, []);
-
-    async function requestNotificationPermission() {
-        try {
-            const permissionStatus = await messaging().requestPermission();
-      
-            if (permissionStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-              // Permission granted
-              const fcmToken = await messaging().getToken();
-              console.log('FCM Token:', fcmToken);
-              // Send this token to the server (database)
-            } else if (permissionStatus === messaging.AuthorizationStatus.DENIED) {
-              // Permission denied
-              Alert.alert('Notification Permission Denied', 'You denied permission for notifications.');
-            }
-          } catch (error) {
-            console.error('Error requesting notification permission:', error);
-          }
-      }
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const signUp = async () => {
     try {
-        await auth().createUserWithEmailAndPassword(email, password);
-        navigation.navigate('Home');
+        const response=await auth().createUserWithEmailAndPassword(email, password);
+        const uid = response.user.uid;
+        console.log('User UID:', uid);
+        const fcmToken = await messaging().getToken();
+        console.log('FCM Token:', fcmToken);
+        await firestore().collection('user_details').doc(uid).set({
+          user_id: uid,
+          user_name: name,
+          phone_number: phoneNumber,
+          fcm_token: fcmToken
+        });
+        console.log('Navigating to Home');
+
+        navigation.navigate('Home',{userId:uid});
     } catch (error) {
         console.error(error);
     }
@@ -41,6 +34,18 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
     <View style={styles.container}>
+        <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+        />
+        <TextInput
+        style={styles.input}
+        placeholder="Phone Number"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
+        />
         <TextInput
         style={styles.input}
         placeholder="Email"
