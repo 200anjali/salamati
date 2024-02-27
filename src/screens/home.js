@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import { View, Text, Button, Alert, ScrollView } from 'react-native';
 import Voice from '@react-native-voice/voice';
-
+import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 
 const dict = ["help", "emergency", "urgent", "help me"];
@@ -80,12 +80,98 @@ const HomeScreen = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Welcome to Home Screen!</Text>
-      <Button title='add contact details' onPress={callSOS}></Button>
-      <Button title={isListening ? 'Stop Listening' : 'Start Listening'} onPress={isListening ? stopListening : startListening} />
-      {recognizedText ? <Text>Recognized: {recognizedText}</Text> : null}
-    </View>
+  
+    <ScrollView>
+ 
+  <Card>
+    <CardImage 
+      source={{uri: 'http://bit.ly/2GfzooV'}} 
+      title="Welcome to Salamati"
+    />
+    <CardTitle
+      subtitle="Enable listening to voice"
+    />
+    <CardContent text="You can switch on this to actively listen and trigger SOS" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={isListening ? stopListening : startListening}
+        title={isListening ? 'Stop Listening' : 'Start Listening'}
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
+
+
+
+
+  <Card>
+    <CardTitle
+      subtitle="Add contact details"
+    />
+    <CardContent text="Add all the phone numbers ypou want to send notification to" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={callSOS}
+        title="Click to add contacts"
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
+
+
+
+
+  <Card>
+    <CardTitle
+      subtitle="show safe path"
+    />
+    <CardContent text="show map" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={()=>{}}
+        title="safe path"
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
+
+
+  <Card>
+    <CardTitle
+      subtitle="Detect web cam"
+    />
+    <CardContent text="This will detect the spy cams" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={()=>{}}
+        title="start detecting"
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
+ 
+</ScrollView>
+
+
+
+
+
+
+
+    // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    //   <Text>Welcome to Home Screen!</Text>
+    //   <Button title='add contact details' onPress={callSOS}></Button>
+    //   <Button title={isListening ? 'Stop Listening' : 'Start Listening'} onPress={isListening ? stopListening : startListening} />
+    //   {recognizedText ? <Text>Recognized: {recognizedText}</Text> : null}
+    // </View>
   );
 };
 
