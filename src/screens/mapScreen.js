@@ -8,10 +8,12 @@ import crimeData from '../crimeometer/crimeometer.json';
 const App = () => {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [crimeProneAreas, setCrimeProneAreas] = useState([]);
+  const [nearbySafePlaces, setNearbySafePlaces] = useState([]);
 
   useEffect(() => {
     requestLocationPermission();
     extractCrimeProneAreas();
+    fetchNearbySafePlaces();
   }, []);
 
   const requestLocationPermission = async () => {
@@ -55,6 +57,25 @@ const App = () => {
     setCrimeProneAreas(crimeAreas);
   };
 
+  const fetchNearbySafePlaces = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=hospital,police&key=AIzaSyAKeN0XMV5LqJmqBrZZ1K8qMipFW7-Eybg`
+      );
+      if (response.data.results) {
+        const safePlaces = response.data.results.map(place => ({
+          latitude: place.geometry.location.lat,
+          longitude: place.geometry.location.lng,
+          name: place.name,
+        }));
+        setNearbySafePlaces(safePlaces);
+      }
+    } catch (error) {
+      console.error('Error fetching nearby safe places:', error.message);
+      Alert.alert('Error', 'Could not fetch nearby safe places.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Button title="Show My Location" onPress={requestLocationPermission} />
@@ -80,6 +101,14 @@ const App = () => {
               fillColor="rgba(255, 0, 0, 0.5)"
               strokeWidth={2}
               strokeColor="red"
+            />
+          ))}
+           {nearbySafePlaces.map((place, index) => (
+            <Marker
+              key={index}
+              coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+              title={place.name}
+              pinColor="green" // Mark safe places as green
             />
           ))}
           <Marker
