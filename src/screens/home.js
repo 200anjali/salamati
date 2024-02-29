@@ -4,6 +4,7 @@ import Voice from '@react-native-voice/voice';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 import MapScreen from './mapScreen';
+import videoPlayer from './videoPlayer';
 
 const dict = ["help", "emergency", "urgent", "help me"];
 
@@ -82,6 +83,9 @@ const HomeScreen = ({ route, navigation }) => {
   const callMapScreen=()=>{
     navigation.navigate('MapScreen');
   }
+  const callVideoPlayer=()=>{
+    navigation.navigate('VideoPlayer');
+  }
 
   return (
   
@@ -148,34 +152,37 @@ const HomeScreen = ({ route, navigation }) => {
 
   <Card>
     <CardTitle
-      subtitle="Detect web cam"
+      subtitle="Defense Tutorials"
     />
-    <CardContent text="This will detect the spy cams" />
+    <CardContent text="Learn how to protect yourself" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={callVideoPlayer}
+        title="Click to play videos"
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
+
+  <Card>
+    <CardTitle
+      subtitle="Spy cam detection"
+    />
+    <CardContent text="Detect hidden cameras" />
     <CardAction 
       separator={true} 
       inColumn={false}>
       <CardButton
         onPress={()=>{}}
-        title="start detecting"
+        title="Start detecting"
         color="#FEB557"
       />
     </CardAction>
   </Card>
  
 </ScrollView>
-
-
-
-
-
-
-
-    // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    //   <Text>Welcome to Home Screen!</Text>
-    //   <Button title='add contact details' onPress={callSOS}></Button>
-    //   <Button title={isListening ? 'Stop Listening' : 'Start Listening'} onPress={isListening ? stopListening : startListening} />
-    //   {recognizedText ? <Text>Recognized: {recognizedText}</Text> : null}
-    // </View>
   );
 };
 
