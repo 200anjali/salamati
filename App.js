@@ -21,6 +21,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from "./src/screens/home";
 import SignInScreen from "./src/screens/signIn";
 import SignUpScreen from "./src/screens/signUp";
+import MapScreen from "./src/screens/mapScreen";
 import SOSContactDetailsScreen from "./src/screens/SOSContactDetailsScreen";
 
 const Stack = createStackNavigator();
@@ -37,6 +38,7 @@ const App = () => {
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
         <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS'}}/>
+        <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

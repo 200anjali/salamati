@@ -3,6 +3,7 @@ import { View, Text, Button, Alert, ScrollView } from 'react-native';
 import Voice from '@react-native-voice/voice';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import SOSContactDetailsScreen from './SOSContactDetailsScreen';
+import MapScreen from './mapScreen';
 
 const dict = ["help", "emergency", "urgent", "help me"];
 
@@ -78,6 +79,9 @@ const HomeScreen = ({ route, navigation }) => {
   const callSOS=()=>{
     navigation.navigate('SOSContactDetailsScreen',{userId:userId});
   }
+  const callMapScreen=()=>{
+    navigation.navigate('MapScreen');
+  }
 
   return (
   
@@ -129,12 +133,12 @@ const HomeScreen = ({ route, navigation }) => {
     <CardTitle
       subtitle="show safe path"
     />
-    <CardContent text="show map" />
+    <CardContent text="Show nearest safe place" />
     <CardAction 
       separator={true} 
       inColumn={false}>
       <CardButton
-        onPress={()=>{}}
+        onPress={callMapScreen}
         title="safe path"
         color="#FEB557"
       />
