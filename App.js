@@ -40,7 +40,7 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
         <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS'}}/>
         <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen'}} />
-        <Stack.Screen name="VideoPlayer" component={videoPlayer} options={{title:'Video Player'}}/>
+        <Stack.Screen name="VideoPlayer" component={videoPlayer} options={{title:'Defense Tutorial'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

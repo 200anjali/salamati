@@ -165,6 +165,22 @@ const HomeScreen = ({ route, navigation }) => {
       />
     </CardAction>
   </Card>
+
+  <Card>
+    <CardTitle
+      subtitle="Spy cam detection"
+    />
+    <CardContent text="Detect hidden cameras" />
+    <CardAction 
+      separator={true} 
+      inColumn={false}>
+      <CardButton
+        onPress={()=>{}}
+        title="Start detecting"
+        color="#FEB557"
+      />
+    </CardAction>
+  </Card>
  
 </ScrollView>
   );
