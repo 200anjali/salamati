@@ -25,6 +25,7 @@ import MapScreen from "./src/screens/mapScreen";
 import SOSContactDetailsScreen from "./src/screens/SOSContactDetailsScreen";
 import videoPlayer from "./src/screens/videoPlayer";
 import SafePath from "./src/screens/safePath";
+import SpyCamDetection from "./src/screens/spyCamDetection";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ const App = () => {
         <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS'}}/>
         <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen'}} />
         <Stack.Screen name="SafeScreen" component={SafePath} options={{title:'Safe Screen'}} />
+        <Stack.Screen name="SpyCamScreen" component={SpyCamDetection} options={{title:'Spy Camera Screen'}} />
         <Stack.Screen name="VideoPlayer" component={videoPlayer} options={{title:'Defense Tutorial'}}/>
       </Stack.Navigator>
     </NavigationContainer>

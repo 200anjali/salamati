@@ -86,9 +86,7 @@ const HomeScreen = ({ route, navigation }) => {
   const callVideoPlayer=()=>{
     navigation.navigate('VideoPlayer');
   }
-
   
-
   return (
   
     <ScrollView>
@@ -177,7 +175,7 @@ const HomeScreen = ({ route, navigation }) => {
       separator={true} 
       inColumn={false}>
       <CardButton
-        onPress={()=>{ }}
+        onPress={()=>{ navigation.navigate('SpyCamScreen')}}
         title="Start detecting"
         color="#FEB557"
       />
