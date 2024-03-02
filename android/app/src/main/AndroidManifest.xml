@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+
 
 
     <application
@@ -45,6 +47,6 @@
       </activity>
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCJ646sNct8O7v0BwnBE6MgfNeiR15_Y6Y" />
+        android:value="AIzaSyCJ646sNct8O7v0BwnBE6MgfNeiR15_Y6Y"/>
     </application>
 </manifest>

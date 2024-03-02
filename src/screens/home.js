@@ -87,6 +87,8 @@ const HomeScreen = ({ route, navigation }) => {
     navigation.navigate('VideoPlayer');
   }
 
+  
+
   return (
   
     <ScrollView>
@@ -175,7 +177,7 @@ const HomeScreen = ({ route, navigation }) => {
       separator={true} 
       inColumn={false}>
       <CardButton
-        onPress={()=>{}}
+        onPress={()=>{ }}
         title="Start detecting"
         color="#FEB557"
       />
