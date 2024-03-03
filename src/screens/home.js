@@ -81,7 +81,7 @@ const HomeScreen = ({ route, navigation }) => {
     navigation.navigate('SOSContactDetailsScreen',{userId:userId});
   }
   const callMapScreen=()=>{
-    navigation.navigate('MapScreen');
+    navigation.navigate('SafeScreen');
   }
   const callVideoPlayer=()=>{
     navigation.navigate('VideoPlayer');
