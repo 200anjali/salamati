@@ -4,7 +4,6 @@ import firestore from '@react-native-firebase/firestore';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
   const userId  = route.params;
-  const userRef =  firestore().collection('user_details');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
@@ -47,12 +46,9 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
       // Handle the error, show an alert, etc.
     }
   };
- console.log(userDetails.name);
+
   return (
     <View style={styles.container}>
-      {/* <Text>Name: {userDetails.name}</Text>
-      <Text>Email: {userDetails.email}</Text>
-      <Text>Phone: {userDetails.phoneNumber}</Text> */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
