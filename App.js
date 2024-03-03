@@ -37,14 +37,14 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn">
-        <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
-        <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS'}}/>
-        <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen'}} />
-        <Stack.Screen name="SafeScreen" component={SafePath} options={{title:'Safe Screen'}} />
-        <Stack.Screen name="SpyCamScreen" component={SpyCamDetection} options={{title:'Spy Camera Screen'}} />
-        <Stack.Screen name="VideoPlayer" component={videoPlayer} options={{title:'Defense Tutorial'}}/>
+        <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In', headerTitleStyle: {color:"#F33A6A"},}} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up', headerTitleStyle: {color:"#F33A6A"}, }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' , headerTitleStyle: {color:"#F33A6A"},}} />
+        <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS', headerTitleStyle: {color:"#F33A6A"},}}/>
+        <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen', headerTitleStyle: {color:"#F33A6A"},}} />
+        <Stack.Screen name="SafeScreen" component={SafePath} options={{title:'Safe Screen', headerTitleStyle: {color:"#F33A6A"},}} />
+        <Stack.Screen name="SpyCamScreen" component={SpyCamDetection} options={{title:'Spy Camera Screen', headerTitleStyle: {color:"#F33A6A"},}} />
+        <Stack.Screen name="VideoPlayer" component={videoPlayer} options={{title:'Defense Tutorial', headerTitleStyle: {color:"#F33A6A"},}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

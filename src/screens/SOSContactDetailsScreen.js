@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
-  console.log('Route:', route);
-
+  const userId  = route.params;
+  const userRef =  firestore().collection('user_details');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
@@ -17,7 +17,6 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
 
   const saveSOSContacts = async () => {
     try {
-      const { userId } = route.params;
 
       // Ensure userId is available before proceeding
       if (userId) {
@@ -48,28 +47,12 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
       // Handle the error, show an alert, etc.
     }
   };
-
-  const renderItem = ({ item, index }) => (
-    <View style={styles.phoneNumberContainer}>
-      <TextInput
-        style={styles.phoneNumberText}
-        value={item}
-        onChangeText={(newText) => {
-          const updatedPhoneNumbers = [...phoneNumbers];
-          updatedPhoneNumbers[index] = newText;
-          setPhoneNumbers(updatedPhoneNumbers);
-        }}
-      />
-    </View>
-  );
-
+ console.log(userDetails.name);
   return (
     <View style={styles.container}>
-      <FlatList
-        data={phoneNumbers}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {/* <Text>Name: {userDetails.name}</Text>
+      <Text>Email: {userDetails.email}</Text>
+      <Text>Phone: {userDetails.phoneNumber}</Text> */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
