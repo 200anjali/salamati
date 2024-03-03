@@ -5,6 +5,8 @@ import Sound from 'react-native-sound';
 
 const MagnetometerDetection = () => {
   const [isSpyCameraDetected, setIsSpyCameraDetected] = useState(false);
+  const [nmagnitude, setNmagnitude] = useState(0);
+  const [threshold, setThreshold] = useState(50);
 
   useEffect(() => {
     const beepSound = new Sound(require('../assets/beep-05.mp3'), (error) => {
@@ -17,9 +19,9 @@ const MagnetometerDetection = () => {
     const subscription = magnetometer.subscribe(({ x, y, z }) => {
       // Calculate the magnitude of the magnetic field vector
       const magnitude = Math.sqrt(x * x + y * y + z * z);
-
+      setNmagnitude(magnitude);
       // Threshold value to detect spy camera
-      const threshold = 50; 
+      // const threshold = 50; 
 
       if (magnitude > threshold) {
         if (!isSpyCameraDetected) {
@@ -48,6 +50,13 @@ const MagnetometerDetection = () => {
       <Text style={styles.text}>
         {isSpyCameraDetected ? 'Spy camera detected!' : 'No spy camera detected.'}
       </Text>
+      <View style={styles.meterContainer}>
+        <Text>Magnitude: {nmagnitude.toFixed(2)}</Text>
+        <View style={styles.meter}>
+          <View style={{ ...styles.meterFill, width: `${(nmagnitude / threshold) * 100}%` }} />
+        </View>
+        <Text>Threshold: {threshold}</Text>
+      </View>
     </View>
   );
 };
@@ -61,6 +70,20 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  meterContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  meter: {
+    width: 200,
+    height: 20,
+    backgroundColor: '#ddd',
+    marginTop: 10,
+  },
+  meterFill: {
+    height: '100%',
+    backgroundColor: 'blue',
   },
 });
 
