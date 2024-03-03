@@ -8,7 +8,6 @@ import videoPlayer from './videoPlayer';
 import Geolocation from '@react-native-community/geolocation';
 import Permissions from 'react-native-permissions';
 
-
 const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back", "Somebody help", "harassed"];
 
 
@@ -139,7 +138,7 @@ try{
     <View contentContainerStyle={styles.scrollView}>
       <View style={styles.row}> 
         <Card style={styles.cardLeft}>
-          <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/podcast.png')} style={styles.icon} />
+          <Image source={require('../icons/podcast.png')} style={styles.icon} />
             <CardAction 
               separator={true} 
               inColumn={false}>
@@ -152,7 +151,7 @@ try{
         </Card>
       
         <Card style={styles.cardRight}>
-          <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/sos.png')} style={styles.icon} />
+          <Image source={require('../icons//sos.png')} style={styles.icon} />
             <CardAction 
               separator={true} 
               inColumn={false}>
@@ -168,7 +167,7 @@ try{
 
     <View style={styles.row}> 
       <Card style={styles.cardLeft}>
-        <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/locations.png')} style={styles.icon} />
+        <Image source={require('../icons/locations.png')} style={styles.icon} />
           <CardAction 
             separator={true} 
             inColumn={false}>
@@ -181,7 +180,7 @@ try{
         </Card>
       
       <Card style={styles.cardRight}>
-        <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/play-video.png')} style={styles.icon} />
+        <Image source={require('../icons/play-video.png')} style={styles.icon} />
           <CardAction 
             separator={true} 
             inColumn={false}>
@@ -196,7 +195,7 @@ try{
 
     <View style={styles.row}> 
       <Card style={styles.cardLeft}>
-        <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/cam.png')} style={styles.icon} />
+        <Image source={require('../icons/cam.png')} style={styles.icon} />
           <CardAction 
             separator={true} 
             inColumn={false}>
@@ -209,7 +208,7 @@ try{
         </Card>
 
         <Card style={styles.cardRight}>
-        <Image source={require('/Users/anjaliraj/salamati-womens-s-safety-app/src/icons/info.png')} style={styles.icon} />
+        <Image source={require('../icons/info.png')} style={styles.icon} />
           <CardAction 
             separator={true} 
             inColumn={false}>
