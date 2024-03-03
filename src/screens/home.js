@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image} from 'react-native';
+import { View, StyleSheet, Image,Alert} from 'react-native';
 import Voice from '@react-native-voice/voice';
 import { Card, CardAction, CardButton, CardImage } from 'react-native-cards';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 import MapScreen from './mapScreen';
 import videoPlayer from './videoPlayer';
@@ -19,9 +20,11 @@ const HomeScreen = ({ route, navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
 
 
-
-  useEffect(() => {
+  useEffect(()=>{
     requestLocationPermission();
+  },[]);
+  useEffect(() => {
+    
     Voice.onSpeechResults = onSpeechResults;
 
     return () => {
@@ -33,6 +36,7 @@ const HomeScreen = ({ route, navigation }) => {
     try {
       const permissionResult = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
       if (permissionResult === RESULTS.GRANTED) {
+        console.log("calling");
         getCurrentLocation();
       } else {
         const newPermissionResult = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
@@ -50,6 +54,8 @@ const HomeScreen = ({ route, navigation }) => {
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude);
         setCurrentLocation({ latitude, longitude });
       },
       error => {
@@ -101,11 +107,14 @@ const HomeScreen = ({ route, navigation }) => {
 
   const sendNotification=async()=>{
 try{
+    requestLocationPermission();
    const latitude=currentLocation.latitude;
    const longitude=currentLocation.longitude;
    console.log(latitude);
    console.log(longitude);
-    fetch(`https://5500-36-255-87-1.ngrok-free.app/send_notification/${userId}`,
+   const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+   console.log(url);
+   fetch(`https://2441-36-255-87-1.ngrok-free.app/send_notification/${userId}/${latitude}/${longitude}`,
       {method:'GET'}) // Replace with your API endpoint
      .then(response => {
        if (!response.ok) {
