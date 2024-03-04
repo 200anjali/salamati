@@ -243,12 +243,12 @@ try{
         </Card>
     </View>
 
-    <Card>
+    {propsData && <Card>
     <CardTitle
       title={propsData && propsData.title} // Add a title prop
     />
     <CardContent text={propsData && propsData.body} />
-  </Card>
+  </Card>}
   
 </ScrollView>
   );
