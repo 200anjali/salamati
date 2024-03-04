@@ -48,7 +48,7 @@ const MagnetometerDetection = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        {isSpyCameraDetected ? 'Spy camera detected!' : 'No spy camera detected.'}
+        {isSpyCameraDetected ? 'Electronic Device detected!' : 'No device detected.'}
       </Text>
       <View style={styles.meterContainer}>
         <Text>Magnitude: {nmagnitude.toFixed(2)}</Text>
