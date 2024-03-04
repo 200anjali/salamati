@@ -59,7 +59,7 @@ const SignUpScreen = ({ navigation }) => {
         onChangeText={setPassword}
         secureTextEntry
         />
-        <Button title="Sign Up" onPress={signUp} />
+        <Button title="Sign Up" onPress={signUp} color="#F33A6A" />
     </View>
     );
 };

@@ -9,55 +9,64 @@ const SignInScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     const signIn = async () => {
-    try {
-        const response=await auth().signInWithEmailAndPassword(email, password);
-        const uid = response.user.uid;
-        const fcmToken = await messaging().getToken();
-        await firestore().collection('user_details').doc(uid).set(
-            {
-              fcm_token: fcmToken,
-            },
-            { merge: true }
-          );
-        navigation.navigate('Home',{userId:uid});
-    } catch (error) {
-        console.error(error);
-    }
+        try {
+            const response = await auth().signInWithEmailAndPassword(email, password);
+            const uid = response.user.uid;
+            const fcmToken = await messaging().getToken();
+            await firestore().collection('user_details').doc(uid).set(
+                {
+                    fcm_token: fcmToken,
+                },
+                { merge: true }
+            );
+            navigation.navigate('Home', { userId: uid });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
-    <View style={styles.container}>
-        <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        />
-        <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        />
-        <Button title="Sign In" onPress={signIn} />
-        <Button title="Sign Up" onPress={() => navigation.navigate('SignUp')} />
-    </View>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+            <View style={styles.buttonContainer}>
+                <Button title="Sign In" onPress={signIn} color="#F33A6A" />
+            </View>
+            <View style={styles.buttonContainer}>
+                <Button title="Sign Up" onPress={() => navigation.navigate('SignUp')} color="#F33A6A" />
+            </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20, // Add bottom space here
     },
     input: {
-    width: '80%',
-    padding: 10,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    color:"#F33A6A",
+        width: '80%',
+        padding: 10,
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        color: "#F33A6A",
+    },
+    buttonContainer: {
+        width: '80%',
+        marginBottom: 10, // Adjust bottom space between buttons
     },
 });
 
