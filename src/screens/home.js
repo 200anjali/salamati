@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image,Alert} from 'react-native';
+import { View, StyleSheet, Image,Alert, ScrollView} from 'react-native';
 import Voice from '@react-native-voice/voice';
-import { Card, CardAction, CardButton, CardImage } from 'react-native-cards';
+import { Card, CardTitle, CardAction, CardButton, CardImage, CardContent } from 'react-native-cards';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 import MapScreen from './mapScreen';
 import videoPlayer from './videoPlayer';
 import Geolocation from '@react-native-community/geolocation';
 import Permissions from 'react-native-permissions';
+import { CardStyleInterpolators } from '@react-navigation/stack';
+import { useProps } from '../../context';
 
 const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back", "Somebody help", "harassed"];
 
 
 const HomeScreen = ({ route, navigation }) => {
+  const { propsData, updatePropsData } = useProps();
   const { userId,userName } = route.params;
   console.log("username",userName);
   // console.log(userName);
@@ -20,7 +23,14 @@ const HomeScreen = ({ route, navigation }) => {
   const [recognizedText, setRecognizedText] = useState('');
   const [restartInterval, setRestartInterval] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-
+  // const [notificationData, setNotificationData]=useState({
+  //   title: "",
+  //   body: "",
+  // });
+  // // console.log(propsData);
+  // useEffect(()=>{
+  //   setNotificationData(propsData);
+  // },[propsData]);
 
   useEffect(()=>{
     requestLocationPermission();
@@ -145,8 +155,9 @@ try{
     navigation.navigate('VideoPlayer');
   }
 
+  console.log("home props",propsData);
   return (
-    <View contentContainerStyle={styles.scrollView}>
+    <ScrollView >
       <View style={styles.row}> 
         <Card style={styles.cardLeft}>
           <Image source={require('../icons/podcast.png')} style={styles.icon} />
@@ -231,16 +242,21 @@ try{
           </CardAction>
         </Card>
     </View>
-</View>
+
+    <Card>
+    <CardTitle
+      title={propsData && propsData.title} // Add a title prop
+    />
+    <CardContent text={propsData && propsData.body} />
+  </Card>
+  
+</ScrollView>
   );
 };
 
 
 
 const styles = StyleSheet.create({
-  scrollView: {
-    flexGrow: 1,
-  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
