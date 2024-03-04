@@ -13,7 +13,9 @@ const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back",
 
 
 const HomeScreen = ({ route, navigation }) => {
-  const { userId } = route.params;
+  const { userId,userName } = route.params;
+  console.log("username",userName);
+  // console.log(userName);
   const [isListening, setIsListening] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
   const [restartInterval, setRestartInterval] = useState(null);
@@ -114,7 +116,7 @@ try{
    console.log(longitude);
    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
    console.log(url);
-   fetch(`https://2441-36-255-87-1.ngrok-free.app/send_notification/${userId}/${latitude}/${longitude}`,
+   fetch(`https://146b-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
       {method:'GET'}) // Replace with your API endpoint
      .then(response => {
        if (!response.ok) {

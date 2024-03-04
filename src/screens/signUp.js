@@ -26,7 +26,7 @@ const SignUpScreen = ({ navigation }) => {
         });
         console.log('Navigating to Home');
 
-        navigation.navigate('Home',{userId:uid});
+        navigation.navigate('Home',{userId:uid,userName:name});
     } catch (error) {
         console.error(error);
     }
