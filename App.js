@@ -89,27 +89,6 @@ const App = () => {
       console.log("props after updating on app.js",propsData);
     }
   
-    const action = remoteMessage.data.action;
-    console.log(action);
-    // Check the custom action and take appropriate action
-    switch (action) {
-      case 'OPEN_MAP':
-        if (remoteMessage.data.link) {
-          if (Linking && Linking.openURL) {
-            Linking.openURL(remoteMessage.data.link).catch((err) =>
-              console.error('Error opening URL:', err)
-            );
-          } else {
-            console.error('Linking is not supported on this platform');
-          }
-        }
-        break;
-      // Add more cases for other custom actions if needed
-  
-      default:
-        // Default action if no match is found
-        break;
-    }
   };
   useEffect(() => {
     requestUserPermission();
