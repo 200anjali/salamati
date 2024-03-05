@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image,Alert, ScrollView} from 'react-native';
+import { View, StyleSheet, Image,Alert, ScrollView, Linking, TouchableOpacity} from 'react-native';
 import Voice from '@react-native-voice/voice';
 import { Card, CardTitle, CardAction, CardButton, CardImage, CardContent } from 'react-native-cards';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -145,6 +145,13 @@ try{
     }
   };
 
+  const handleCardClick = (text) => {
+    console.log("handle click called");
+      Linking.openURL(text).catch((err) =>
+        console.error('Error opening URL:', err)
+      );
+  };
+
   const callSOS=()=>{
     navigation.navigate('SOSContactDetailsScreen',{userId:userId});
   }
@@ -154,6 +161,7 @@ try{
   const callVideoPlayer=()=>{
     navigation.navigate('VideoPlayer');
   }
+
 
   console.log("home props",propsData);
   return (
@@ -250,21 +258,30 @@ try{
         </Card>
     </View>
 
-    {propsData && <Card>
+    {propsData && (
+  <Card>
     <CardTitle
-      title="Incoming Notifications"
-      titleStyle={color="#F33A6A"}
-      subtitle= {propsData.title} // Add a title prop
-    />
-    <CardContent text={propsData && propsData.body} />
-  </Card>}
+        title="SOS Notifications"
+        style={ {color: "#F33A6A"} }
+        subtitle= {`Urgent SOS: ${propsData.title} urgently requests your assistance as she is in danger. Location details have been shared for immediate help.`} // Note: corrected syntax
+      />
+    <CardAction
+      separator={true}
+      inColumn={false}
+    >
+      <CardButton
+        onPress={() => handleCardClick(propsData.body)}
+        title={(propsData.body) ? "View location" : propsData.body}
+        color="#F33A6A"
+      />
+    </CardAction>
+  </Card>
+)}
   
 </ScrollView>
 </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
