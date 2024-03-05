@@ -157,6 +157,7 @@ try{
 
   console.log("home props",propsData);
   return (
+    <View style={styles.container}>
     <ScrollView >
       <View style={styles.row}> 
         <Card style={styles.cardLeft}>
@@ -168,6 +169,7 @@ try{
                 onPress={isListening ? stopListening : startListening}
                 title={isListening ? 'Stop Listening' : 'Start Listening'}
                 color="#F33A6A"
+                style={{ textAlign: 'center' }}
               />
             </CardAction>
         </Card>
@@ -179,8 +181,9 @@ try{
               inColumn={false}>
               <CardButton
                 onPress={sendNotification}
-                title="send emergency sos"
+                title="SOS Alert"
                 color="#F33A6A"
+                style={{ textAlign: 'center' }}
               />
             </CardAction>
         </Card> 
@@ -197,6 +200,7 @@ try{
               onPress={callMapScreen}
               title="Show safe path"
               color="#F33A6A"
+              style={{ textAlign: 'center' }}
             />
           </CardAction>
         </Card>
@@ -208,8 +212,9 @@ try{
             inColumn={false}>
             <CardButton
               onPress={callVideoPlayer}
-              title="Click to play videos"
+              title="Defense & SpyCam Tutorial"
               color="#F33A6A"
+              style={{ textAlign: 'center' }}
             />
           </CardAction>
       </Card>
@@ -223,8 +228,9 @@ try{
             inColumn={false}>
             <CardButton
               onPress={()=>{ navigation.navigate('SpyCamScreen')}}
-              title="Start detecting"
+              title="Detect Spy Cam"
               color="#F33A6A"
+              style={{ textAlign: 'center' }}
             />
           </CardAction>
         </Card>
@@ -238,6 +244,7 @@ try{
               onPress={callSOS}
               title="User Info"
               color="#F33A6A"
+              style={{ textAlign: 'center' }}
             />
           </CardAction>
         </Card>
@@ -251,12 +258,19 @@ try{
   </Card>}
   
 </ScrollView>
+</View>
   );
 };
 
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: '#FADADD', 
+    paddingHorizontal: 10, 
+    paddingVertical: 10, 
+  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -266,16 +280,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-     // Adjust the flex value for the left card
+    marginRight: 5,
+    paddingVertical: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
+    borderRadius: 10,
   },
   cardRight: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center', // Adjust the flex value for the right card
+    alignItems: 'center',
+    marginLeft: 5,
+    paddingVertical: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
+    borderRadius: 10,
   },
   icon: {
-    width: 50, // Adjust the width according to your design
+    width: 50,
     height: 50,
   },
 });
+
+
 export default HomeScreen;
