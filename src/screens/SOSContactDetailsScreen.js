@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, FlatList } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
-  const userId  = route.params;
+  const userId = route.params;
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
@@ -37,7 +37,7 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
         }
 
         // Navigate to the Home screen or any other screen
-        navigation.navigate('Home',{userId:userId});
+        navigation.navigate('Home', { userId: userId });
       } else {
         console.error('UserId is undefined.');
       }
@@ -56,9 +56,24 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
           value={newPhoneNumber}
           onChangeText={setNewPhoneNumber}
         />
-        <Button title="Add Contact" onPress={addPhoneNumber} />
+        <TouchableOpacity style={styles.button} onPress={addPhoneNumber}>
+          <Text style={styles.buttonText}>Add Contact</Text>
+        </TouchableOpacity>
       </View>
-      <Button title="Save SOS Contacts" onPress={saveSOSContacts} />
+      <TouchableOpacity style={styles.button} onPress={saveSOSContacts}>
+        <Text style={styles.buttonText}>Save SOS Contacts</Text>
+      </TouchableOpacity>
+
+      {/* Display added contacts in a table */}
+      {/* <FlatList
+        data={phoneNumbers}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.phoneNumberContainer}>
+            <Text style={styles.phoneNumberText}>{item}</Text>
+          </View>
+        )}
+      /> */}
     </View>
   );
 };
@@ -68,16 +83,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   input: {
     flex: 1,
     padding: 10,
     borderBottomWidth: 1,
+    marginRight: 10,
+  },
+  button: {
+    backgroundColor: '#F33A6A', // Pink color
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#FFFFFF', // White text color
+    textAlign: 'center',
   },
   phoneNumberContainer: {
     padding: 10,
@@ -85,7 +111,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '80%',
+    width: '100%',
   },
   phoneNumberText: {
     flex: 1,
