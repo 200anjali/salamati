@@ -12,6 +12,9 @@ const SignInScreen = ({ navigation }) => {
         try {
             const response = await auth().signInWithEmailAndPassword(email, password);
             const uid = response.user.uid;
+            const userDoc = await firestore().collection('user_details').doc(uid).get();
+            const userData = userDoc.data();
+
             const fcmToken = await messaging().getToken();
             await firestore().collection('user_details').doc(uid).set(
                 {
@@ -19,7 +22,7 @@ const SignInScreen = ({ navigation }) => {
                 },
                 { merge: true }
             );
-            navigation.navigate('Home', { userId: uid });
+            navigation.navigate('Home', { userId: uid, userName:userData.user_name });
         } catch (error) {
             console.error(error);
         }

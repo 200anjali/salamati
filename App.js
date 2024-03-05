@@ -26,6 +26,13 @@ import SOSContactDetailsScreen from "./src/screens/SOSContactDetailsScreen";
 import videoPlayer from "./src/screens/videoPlayer";
 import SafePath from "./src/screens/safePath";
 import SpyCamDetection from "./src/screens/spyCamDetection";
+import { useEffect, useState } from "react";
+import { PropsProvider }  from './context';
+import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
+import { PermissionsAndroid,Linking } from 'react-native';
+import { useProps } from "./context";
+
 
 const Stack = createStackNavigator();
 
@@ -33,6 +40,92 @@ const Stack = createStackNavigator();
 
 
 const App = () => {
+  // const [appPropsData, setAppPropsData] = useState({
+  //   title: "",
+  //   body: "",
+  // });
+
+  // const updateAppPropsData = (newProps) => {
+  //   setAppPropsData(newProps);
+  // };
+    const { propsData, updatePropsData } = useProps();
+    const BackgroundMessageHandler = async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
+    updatePropsData(remoteMessage.notification);
+    console.log("props after updating on app.js",propsData);
+  };
+  
+  messaging().setBackgroundMessageHandler(BackgroundMessageHandler);
+  
+  const requestUserPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        {
+          title: 'Notification Permission',
+          message:
+            'Salamati App needs access to your notifications ' +
+            'so you can receive emergency alerts.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can now receive notifications');
+      } else {
+        console.log('Notification permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  const handleNotification = (remoteMessage) => {
+    console.log('Received notification:', remoteMessage);
+  
+    if (remoteMessage.notification && remoteMessage.notification.body) {
+      // Alert.alert(remoteMessage.notification.title || 'Notification', remoteMessage.notification.body);
+      updatePropsData(remoteMessage.notification);
+      console.log("props after updating on app.js",propsData);
+    }
+  
+    const action = remoteMessage.data.action;
+    console.log(action);
+    // Check the custom action and take appropriate action
+    switch (action) {
+      case 'OPEN_MAP':
+        if (remoteMessage.data.link) {
+          if (Linking && Linking.openURL) {
+            Linking.openURL(remoteMessage.data.link).catch((err) =>
+              console.error('Error opening URL:', err)
+            );
+          } else {
+            console.error('Linking is not supported on this platform');
+          }
+        }
+        break;
+      // Add more cases for other custom actions if needed
+  
+      default:
+        // Default action if no match is found
+        break;
+    }
+  };
+  useEffect(() => {
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(handleNotification);
+
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //     console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    //     Alert.alert(remoteMessage.notification.body);
+    //     PushNotification.localNotification({
+    //       title: remoteMessage.notification.title,
+    //       message: remoteMessage.notification.body,
+    //     });
+    // });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <NavigationContainer>
