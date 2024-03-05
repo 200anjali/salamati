@@ -119,20 +119,22 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
     <ScrollView style={styles.container}>
     <View style={styles.userInfoContainer}>
       <Text style={styles.userInfoText}>
-        UserId: {userId}
+        UserId:  <Text style={styles.valueItem}>{userId}</Text>
         {'\n'}
-        Name: {userName}
         {'\n'}
-        Phone Number: {userPhoneNumber}
+        Name:  <Text style={styles.valueItem}>{userName}</Text>
+        {'\n'}
+        {'\n'}
+        Phone Number:  <Text style={styles.valueItem}>{userPhoneNumber}</Text>
+        {'\n'}
+        {'\n'}
+        SOS Contact List:
+      {'\n'}
       </Text>
-    </View>
-
-    <View style={styles.contactsContainer}>
-      <Text style={styles.contactsHeader}>Emergency Contacts:</Text>
       <FlatList
         data={SOSContacts}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <Text style={styles.contactItem}>{item}</Text>}
+        renderItem={({ item }) => <Text style={styles.valueItem}>{item}</Text>}
       />
     </View>
 
@@ -188,6 +190,7 @@ const styles = StyleSheet.create({
   userInfoText: {
     fontSize: 18,
     fontWeight: 'bold',
+    color:"#F33A6A",
   },
   contactsContainer: {
     marginBottom: 20,
@@ -197,9 +200,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  contactItem: {
+  valueItem: {
     fontSize: 14,
     marginBottom: 5,
+    color:"#808080",
   },
   editContactsContainer: {
     marginBottom: 20,
@@ -212,6 +216,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 8,
     borderRadius: 5,
+    fontColor: "#333333",
   },
   inputContainer: {
     marginBottom: 10,
@@ -221,6 +226,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 8,
     borderRadius: 5,
+    color: "#333333",
   },
   buttonContainer: {
     marginBottom: 10,
