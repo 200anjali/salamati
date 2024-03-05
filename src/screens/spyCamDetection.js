@@ -6,7 +6,7 @@ import Sound from 'react-native-sound';
 const MagnetometerDetection = () => {
   const [isSpyCameraDetected, setIsSpyCameraDetected] = useState(false);
   const [nmagnitude, setNmagnitude] = useState(0);
-  const [threshold, setThreshold] = useState(45); // Updated threshold to 45
+  const [threshold, setThreshold] = useState(50); // Updated threshold to 45
 
   useEffect(() => {
     const beepSound = new Sound(require('../assets/beep-05.mp3'), (error) => {
