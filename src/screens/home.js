@@ -220,7 +220,7 @@ try{
               inColumn={false}>
               <CardButton
                 onPress={sendNotification}
-                title="send emergency sos"
+                title="SOS Alert"
                 color="#F33A6A"
               />
             </CardAction>
@@ -249,7 +249,7 @@ try{
             inColumn={false}>
             <CardButton
               onPress={callVideoPlayer}
-              title="Click to play videos"
+              title="Defense & SpyCam Tips"
               color="#F33A6A"
             />
           </CardAction>
@@ -264,7 +264,7 @@ try{
             inColumn={false}>
             <CardButton
               onPress={()=>{ navigation.navigate('SpyCamScreen')}}
-              title="Start detecting"
+              title="Detect Spy Cam"
               color="#F33A6A"
             />
           </CardAction>
