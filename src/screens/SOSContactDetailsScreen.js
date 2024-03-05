@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet, FlatList } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
-  const userId = route.params;
+  console.log('Route:', route);
+
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
@@ -16,6 +17,7 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
 
   const saveSOSContacts = async () => {
     try {
+      const { userId } = route.params;
 
       // Ensure userId is available before proceeding
       if (userId) {
@@ -37,7 +39,7 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
         }
 
         // Navigate to the Home screen or any other screen
-        navigation.navigate('Home', { userId: userId });
+        navigation.navigate('Home',{userId:userId});
       } else {
         console.error('UserId is undefined.');
       }
@@ -47,8 +49,27 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
     }
   };
 
+  const renderItem = ({ item, index }) => (
+    <View style={styles.phoneNumberContainer}>
+      <TextInput
+        style={styles.phoneNumberText}
+        value={item}
+        onChangeText={(newText) => {
+          const updatedPhoneNumbers = [...phoneNumbers];
+          updatedPhoneNumbers[index] = newText;
+          setPhoneNumbers(updatedPhoneNumbers);
+        }}
+      />
+    </View>
+  );
+
   return (
     <View style={styles.container}>
+      <FlatList
+        data={phoneNumbers}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -56,24 +77,9 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
           value={newPhoneNumber}
           onChangeText={setNewPhoneNumber}
         />
-        <TouchableOpacity style={styles.button} onPress={addPhoneNumber}>
-          <Text style={styles.buttonText}>Add Contact</Text>
-        </TouchableOpacity>
+        <Button title="Add Contact" onPress={addPhoneNumber} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={saveSOSContacts}>
-        <Text style={styles.buttonText}>Save SOS Contacts</Text>
-      </TouchableOpacity>
-
-      {/* Display added contacts in a table */}
-      {/* <FlatList
-        data={phoneNumbers}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.phoneNumberContainer}>
-            <Text style={styles.phoneNumberText}>{item}</Text>
-          </View>
-        )}
-      /> */}
+      <Button title="Save SOS Contacts" onPress={saveSOSContacts} />
     </View>
   );
 };
@@ -83,27 +89,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   input: {
     flex: 1,
     padding: 10,
     borderBottomWidth: 1,
-    marginRight: 10,
-  },
-  button: {
-    backgroundColor: '#F33A6A', // Pink color
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF', // White text color
-    textAlign: 'center',
   },
   phoneNumberContainer: {
     padding: 10,
@@ -111,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    width: '80%',
   },
   phoneNumberText: {
     flex: 1,
