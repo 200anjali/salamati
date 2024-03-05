@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image,Alert, ScrollView ,Linking} from 'react-native';
+import { View, StyleSheet, Image,Alert, ScrollView} from 'react-native';
 import Voice from '@react-native-voice/voice';
 import { Card, CardTitle, CardAction, CardButton, CardImage, CardContent } from 'react-native-cards';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -33,7 +33,7 @@ const HomeScreen = ({ route, navigation }) => {
   // },[propsData]);
 
   useEffect(()=>{
-    checkAndRequestLocationPermission();
+    requestLocationPermission();
   },[]);
   useEffect(() => {
     
@@ -44,65 +44,25 @@ const HomeScreen = ({ route, navigation }) => {
     };
   }, []);
 
-  const checkAndRequestLocationPermission = async () => {
+  const requestLocationPermission = async () => {
     try {
-      if (Platform.OS === 'android') {
-        const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-        if (permissionStatus !== RESULTS.GRANTED) {
-          const permissionResponse = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-          if (permissionResponse === RESULTS.GRANTED) {
-            console.log('Location permission granted');
-            getCurrentLocation();
-          } else {
-            console.log('Location permission denied');
-          }
+      const permissionResult = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+      if (permissionResult === RESULTS.GRANTED) {
+        console.log("calling");
+        getCurrentLocation();
+      } else {
+        const newPermissionResult = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        if (newPermissionResult === RESULTS.GRANTED) {
+          getCurrentLocation();
         } else {
-          console.log('Location permission already granted');
-          checkLocationService();
-        }
-      } else if (Platform.OS === 'ios') {
-        const permissionStatus = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
-        if (permissionStatus !== RESULTS.GRANTED) {
-          const permissionResponse = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
-          if (permissionResponse === RESULTS.GRANTED) {
-            console.log('Location permission granted');
-            getCurrentLocation();
-          } else {
-            console.log('Location permission denied');
-          }
-        } else {
-          console.log('Location permission already granted');
-          checkLocationService();
+          Alert.alert('Location permission denied');
         }
       }
-    } catch (err) {
-      console.warn('Error checking or requesting location permission:', err);
+    } catch (error) {
+      console.error('Error checking location permission:', error);
     }
   };
-  
-  const checkLocationService = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        // Location service is enabled
-        console.log('Location service is enabled');
-        const { latitude, longitude } = position.coords;
-        const currentLocation = { latitude, longitude };
-        setCurrentLocation(currentLocation);
-      },
-      (error) => {
-        // Location service is disabled
-        console.error('Location service is disabled:', error);
-        // Prompt the user to turn on location services
-        Alert.alert(
-          'Location Service Required',
-          'Please enable location services to use this app.',
-          [{ text: 'OK', onPress: () => Linking.openSettings() }]
-        );
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
-  };
-  
+
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
@@ -159,13 +119,14 @@ const HomeScreen = ({ route, navigation }) => {
 
   const sendNotification=async()=>{
 try{
+    requestLocationPermission();
    const latitude=currentLocation.latitude;
    const longitude=currentLocation.longitude;
    console.log(latitude);
    console.log(longitude);
    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
    console.log(url);
-   fetch(`https://146b-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
+   fetch(`https://e8fb-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
       {method:'GET'}) // Replace with your API endpoint
      .then(response => {
        if (!response.ok) {
@@ -188,7 +149,6 @@ try{
     navigation.navigate('SOSContactDetailsScreen',{userId:userId});
   }
   const callMapScreen=()=>{
-    checkAndRequestLocationPermission();
     navigation.navigate('SafeScreen');
   }
   const callVideoPlayer=()=>{
@@ -197,7 +157,6 @@ try{
 
   console.log("home props",propsData);
   return (
-    <View style={styles.container}>
     <ScrollView >
       <View style={styles.row}> 
         <Card style={styles.cardLeft}>
@@ -220,7 +179,7 @@ try{
               inColumn={false}>
               <CardButton
                 onPress={sendNotification}
-                title="SOS Alert"
+                title="send emergency sos"
                 color="#F33A6A"
               />
             </CardAction>
@@ -249,7 +208,7 @@ try{
             inColumn={false}>
             <CardButton
               onPress={callVideoPlayer}
-              title="Defense & SpyCam Tips"
+              title="Click to play videos"
               color="#F33A6A"
             />
           </CardAction>
@@ -264,7 +223,7 @@ try{
             inColumn={false}>
             <CardButton
               onPress={()=>{ navigation.navigate('SpyCamScreen')}}
-              title="Detect Spy Cam"
+              title="Start detecting"
               color="#F33A6A"
             />
           </CardAction>
@@ -292,19 +251,12 @@ try{
   </Card>}
   
 </ScrollView>
-</View>
   );
 };
 
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: '#FADADD', 
-    paddingHorizontal: 10, 
-    paddingVertical: 10, 
-  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -314,27 +266,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 5,
-    paddingVertical: 20,
-    backgroundColor: '#FFFFFF',
-    elevation: 3,
-    borderRadius: 10,
+     // Adjust the flex value for the left card
   },
   cardRight: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 5,
-    paddingVertical: 20,
-    backgroundColor: '#FFFFFF',
-    elevation: 3,
-    borderRadius: 10,
+    alignItems: 'center', // Adjust the flex value for the right card
   },
   icon: {
-    width: 50,
+    width: 50, // Adjust the width according to your design
     height: 50,
   },
 });
-
-
 export default HomeScreen;
