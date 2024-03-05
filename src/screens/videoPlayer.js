@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useRef} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 
 const VideoPlayer = () => {
   const playerRef1 = useRef(null);
@@ -20,7 +20,23 @@ const VideoPlayer = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.videoContainer}>
-        <Text style={styles.videoTitle}>Empowerment through Self-Defense: Mind and Body United</Text>
+        <Text style={styles.videoTitle}>
+          Unveiling Illusions: Detecting Two-Way Mirrors
+        </Text>
+        <View style={styles.videoWrapper}>
+          <YoutubePlayer
+            ref={playerRef1}
+            height={315}
+            play={true}
+            videoId={'Z5zUbvtj8NU'}
+            onReady={onReady}
+          />
+        </View>
+      </View>
+      <View style={styles.videoContainer}>
+        <Text style={styles.videoTitle}>
+          Empowerment through Self-Defense: Mind and Body United
+        </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
             ref={playerRef1}
@@ -31,9 +47,25 @@ const VideoPlayer = () => {
           />
         </View>
       </View>
+      <View style={styles.videoContainer}>
+        <Text style={styles.videoTitle}>
+          "Unveiling Hidden Eyes: Spy Camera Hiding Spots & Detection Methods"
+        </Text>
+        <View style={styles.videoWrapper}>
+          <YoutubePlayer
+            ref={playerRef1}
+            height={315}
+            play={true}
+            videoId={'ctVwRViepf4'}
+            onReady={onReady}
+          />
+        </View>
+      </View>
 
       <View style={styles.videoContainer}>
-        <Text style={styles.videoTitle}>Defend Your Freedom: Mastering Choke Hold Defense Techniques</Text>
+        <Text style={styles.videoTitle}>
+          Defend Your Freedom: Mastering Choke Hold Defense Techniques
+        </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
             ref={playerRef2}
@@ -46,7 +78,9 @@ const VideoPlayer = () => {
       </View>
 
       <View style={styles.videoContainer}>
-        <Text style={styles.videoTitle}>Unleash Your Inner Protector: Essential Self-Defense Tactics</Text>
+        <Text style={styles.videoTitle}>
+          Unleash Your Inner Protector: Essential Self-Defense Tactics
+        </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
             ref={playerRef3}
@@ -59,7 +93,9 @@ const VideoPlayer = () => {
       </View>
 
       <View style={styles.videoContainer}>
-        <Text style={styles.videoTitle}>Guardian's Guide: 30 Easy Self-Defense Techniques for Empowerment</Text>
+        <Text style={styles.videoTitle}>
+          Guardian's Guide: 30 Easy Self-Defense Techniques for Empowerment
+        </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
             ref={playerRef4}
