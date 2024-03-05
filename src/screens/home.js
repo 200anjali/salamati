@@ -88,7 +88,7 @@ const HomeScreen = ({ route, navigation }) => {
        const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
        console.log(url);
        fetch(`https://b4a8-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
-          {method:'GET'}) // Replace with your API endpoint
+          {method:'GET'})
          .then(response => {
            if (!response.ok) {
              throw new Error(`HTTP error! Status: ${response.status}`);
@@ -137,7 +137,7 @@ const HomeScreen = ({ route, navigation }) => {
 
   const sendNotification=async()=>{
 try{
-    requestLocationPermission();
+  await requestLocationPermission();
    const latitude=currentLocation.latitude;
    const longitude=currentLocation.longitude;
    console.log(latitude);
