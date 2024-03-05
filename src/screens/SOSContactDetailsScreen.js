@@ -1,24 +1,86 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, StyleSheet, Text, FlatList } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
-  console.log('Route:', route);
-
+  const { userId} = route.params;
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [userPhoneNumber,setUserPhoneNumber] = useState('');
+  const [userName,setUserName] = useState('');
+  const [SOSContacts,setSOSContacts]=useState(null);
+  
+    useEffect(() => {
+      const getUserDetails = async () => {
+        try {
+          // Get the user document by ID
+          const userDoc = await firestore().collection('user_details').doc(userId).get();
+  
+          // Check if the document exists
+          if (userDoc.exists) {
+            // Access the data
+            const userData = userDoc.data();
+  
+            // Log or use the data as needed
+            console.log('User Details:', userData);
+  
+            // Access specific fields
+            const userName = userData.user_name;
+            const userPhoneNumber = userData.phone_number;
+            setUserPhoneNumber(userPhoneNumber);
+            setUserName(userName);
+  
+            console.log('User Name:', userName);
+            console.log('Phone Number:', userPhoneNumber);
+  
+            // You can update the component state with the user data or use it as needed
+          } else {
+            console.log('User not found');
+          }
+        } catch (error) {
+          console.error('Error getting user details:', error);
+        }
+      };
+  
+      // Call the function to get user details when the component mounts
+      getUserDetails();
+    }, [userId]);
+
+
+
+    useEffect(() => {
+      const fetchPhoneNumbers = async () => {
+        try {
+          const snapshot = await firestore()
+            .collection('sos_contact_details')
+            .doc(userId)
+            .get();
+  
+          if (snapshot.exists) {
+            const data = snapshot.data();
+            setSOSContacts(data.phoneNumbers || []);
+            console.log(SOSContacts);
+          }
+        } catch (error) {
+          console.error('Error fetching phone numbers:', error);
+        }
+      };
+  
+      fetchPhoneNumbers();
+    }, [userId]);
+  
+
 
   const addPhoneNumber = () => {
     if (newPhoneNumber.trim() !== '') {
-      setPhoneNumbers([...phoneNumbers, newPhoneNumber]);
+      setPhoneNumbers(prevPhoneNumbers => [...prevPhoneNumbers, newPhoneNumber.trim()]);
       setNewPhoneNumber('');
     }
   };
 
   const saveSOSContacts = async () => {
     try {
-      const { userId } = route.params;
-
       // Ensure userId is available before proceeding
       if (userId) {
         const sosContactsRef = firestore().collection('sos_contact_details');
@@ -39,7 +101,7 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
         }
 
         // Navigate to the Home screen or any other screen
-        navigation.navigate('Home',{userId:userId});
+        navigation.navigate('Home', { userId: userId });
       } else {
         console.error('UserId is undefined.');
       }
@@ -49,27 +111,42 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
     }
   };
 
-  const renderItem = ({ item, index }) => (
-    <View style={styles.phoneNumberContainer}>
-      <TextInput
-        style={styles.phoneNumberText}
-        value={item}
-        onChangeText={(newText) => {
-          const updatedPhoneNumbers = [...phoneNumbers];
-          updatedPhoneNumbers[index] = newText;
-          setPhoneNumbers(updatedPhoneNumbers);
-        }}
+  return (
+    <ScrollView>
+      <View>
+        <Text>
+          UserId: {userId}
+          Name: {userName}
+          Phone Number: {userPhoneNumber}
+        </Text>
+      </View>
+      <View>
+        <Text>
+          Phone Numbers: 
+        </Text>
+      </View>
+      <View>
+      <Text>User ID: {userId}</Text>
+      <FlatList
+        data={SOSContacts}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => <Text>{item}</Text>}
       />
     </View>
-  );
-
-  return (
     <View style={styles.container}>
-      <FlatList
-        data={phoneNumbers}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {phoneNumbers.map((item, index) => (
+        <View key={index} style={styles.phoneNumberContainer}>
+          <TextInput
+            style={styles.phoneNumberText}
+            value={item}
+            onChangeText={(newText) => {
+              const updatedPhoneNumbers = [...phoneNumbers];
+              updatedPhoneNumbers[index] = newText;
+              setPhoneNumbers(updatedPhoneNumbers);
+            }}
+          />
+        </View>
+      ))}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -77,10 +154,15 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
           value={newPhoneNumber}
           onChangeText={setNewPhoneNumber}
         />
-        <Button title="Add Contact" onPress={addPhoneNumber} />
       </View>
-      <Button title="Save SOS Contacts" onPress={saveSOSContacts} />
+      <View>
+      <Button title="Add Contact" color="#F33A6A" onPress={addPhoneNumber} />
+      </View>
+      <View>
+      <Button title="Save SOS Contacts" color="#F33A6A" onPress={saveSOSContacts} />
+      </View>
     </View>
+    </ScrollView>
   );
 };
 
