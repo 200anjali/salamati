@@ -8,6 +8,8 @@ const VideoPlayer = () => {
   const playerRef2 = useRef(null);
   const playerRef3 = useRef(null);
   const playerRef4 = useRef(null);
+  const playerRef5 = useRef(null);
+  const playerRef6 = useRef(null);
 
   const onReady = () => {
     // Pause the video immediately after it is loaded
@@ -15,6 +17,8 @@ const VideoPlayer = () => {
     playerRef2.current?.pause();
     playerRef3.current?.pause();
     playerRef4.current?.pause();
+    playerRef5.current?.pause();
+    playerRef6.current?.pause();
   };
 
   return (
@@ -39,7 +43,7 @@ const VideoPlayer = () => {
         </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
-            ref={playerRef1}
+            ref={playerRef2}
             height={315}
             play={true}
             videoId={'k9Jn0eP-ZVg'}
@@ -53,7 +57,7 @@ const VideoPlayer = () => {
         </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
-            ref={playerRef1}
+            ref={playerRef3}
             height={315}
             play={true}
             videoId={'ctVwRViepf4'}
@@ -68,7 +72,7 @@ const VideoPlayer = () => {
         </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
-            ref={playerRef2}
+            ref={playerRef4}
             height={315}
             play={true}
             videoId={'-V4vEyhWDZ0'}
@@ -83,7 +87,7 @@ const VideoPlayer = () => {
         </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
-            ref={playerRef3}
+            ref={playerRef5}
             height={315}
             play={true}
             videoId={'Gx3_x6RH1J4'}
@@ -98,7 +102,7 @@ const VideoPlayer = () => {
         </Text>
         <View style={styles.videoWrapper}>
           <YoutubePlayer
-            ref={playerRef4}
+            ref={playerRef6}
             height={315}
             play={true}
             videoId={'Ww1DeUSC94o'}
