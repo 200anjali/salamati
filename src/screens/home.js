@@ -33,7 +33,7 @@ const HomeScreen = ({ route, navigation }) => {
   // },[propsData]);
 
   useEffect(()=>{
-    requestLocationPermission();
+    checkAndRequestLocationPermission();
   },[]);
   useEffect(() => {
     
