@@ -252,7 +252,9 @@ try{
 
     {propsData && <Card>
     <CardTitle
-      title={propsData && propsData.title} // Add a title prop
+      title="Incoming Notifications"
+      titleStyle={color="#F33A6A"}
+      subtitle= {propsData.title} // Add a title prop
     />
     <CardContent text={propsData && propsData.body} />
   </Card>}
