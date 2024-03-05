@@ -11,26 +11,18 @@ import Permissions from 'react-native-permissions';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { useProps } from '../../context';
 
-const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back", "Somebody help", "harassed"];
+const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back", "Somebody help", "harassed", "Rescue", "Is there anyone", "Please don't",  "Call police", "Police"];
 
 
 const HomeScreen = ({ route, navigation }) => {
   const { propsData, updatePropsData } = useProps();
   const { userId,userName } = route.params;
   console.log("username",userName);
-  // console.log(userName);
   const [isListening, setIsListening] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
   const [restartInterval, setRestartInterval] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-  // const [notificationData, setNotificationData]=useState({
-  //   title: "",
-  //   body: "",
-  // });
-  // // console.log(propsData);
-  // useEffect(()=>{
-  //   setNotificationData(propsData);
-  // },[propsData]);
+
 
   useEffect(()=>{
     requestLocationPermission();
@@ -78,7 +70,7 @@ const HomeScreen = ({ route, navigation }) => {
     );
   };
 
-  const onSpeechResults = (event) => {
+  const onSpeechResults = async(event) => {
     console.log('converting');
     const speechText = event.value[0];
     setRecognizedText(speechText);
@@ -88,7 +80,7 @@ const HomeScreen = ({ route, navigation }) => {
       //comment it you are not running the server
       // sendNotification();
       try{
-        requestLocationPermission();
+       await requestLocationPermission();
        const latitude=currentLocation.latitude;
        const longitude=currentLocation.longitude;
        console.log(latitude);
