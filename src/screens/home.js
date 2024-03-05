@@ -197,6 +197,7 @@ try{
 
   console.log("home props",propsData);
   return (
+    <View style={styles.container}>
     <ScrollView >
       <View style={styles.row}> 
         <Card style={styles.cardLeft}>
@@ -291,12 +292,19 @@ try{
   </Card>}
   
 </ScrollView>
+</View>
   );
 };
 
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: '#FADADD', 
+    paddingHorizontal: 10, 
+    paddingVertical: 10, 
+  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -306,16 +314,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-     // Adjust the flex value for the left card
+    marginRight: 5,
+    paddingVertical: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
+    borderRadius: 10,
   },
   cardRight: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center', // Adjust the flex value for the right card
+    alignItems: 'center',
+    marginLeft: 5,
+    paddingVertical: 20,
+    backgroundColor: '#FFFFFF',
+    elevation: 3,
+    borderRadius: 10,
   },
   icon: {
-    width: 50, // Adjust the width according to your design
+    width: 50,
     height: 50,
   },
 });
+
+
 export default HomeScreen;
