@@ -103,7 +103,7 @@ const App = () => {
         <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In', headerTitleStyle: {color:"#F33A6A"},}} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up', headerTitleStyle: {color:"#F33A6A"}, }} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' , headerTitleStyle: {color:"#F33A6A"},}} />
-        <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'SOS', headerTitleStyle: {color:"#F33A6A"},}}/>
+        <Stack.Screen name="SOSContactDetailsScreen" component={SOSContactDetailsScreen} options={{title:'User Details', headerTitleStyle: {color:"#F33A6A"},}}/>
         <Stack.Screen name="MapScreen" component={MapScreen} options={{title:'Map Screen', headerTitleStyle: {color:"#F33A6A"},}} />
         <Stack.Screen name="SafeScreen" component={SafePath} options={{title:'Safe Screen', headerTitleStyle: {color:"#F33A6A"},}} />
         <Stack.Screen name="SpyCamScreen" component={SpyCamDetection} options={{title:'Spy Camera Screen', headerTitleStyle: {color:"#F33A6A"},}} />

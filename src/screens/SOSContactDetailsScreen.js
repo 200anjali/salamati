@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, FlatList } from 'react-native';
+import { ScrollView, View, TextInput, Button, StyleSheet, Text, FlatList } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 const SOSContactDetailsScreen = ({ route, navigation }) => {
   const { userId} = route.params;
@@ -10,6 +10,10 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
   const [userPhoneNumber,setUserPhoneNumber] = useState('');
   const [userName,setUserName] = useState('');
   const [SOSContacts,setSOSContacts]=useState(null);
+  const [isAddContactVisible, setAddContactVisibility] = useState(false);
+  const toggleAddContactVisibility = () => {
+    setAddContactVisibility(!isAddContactVisible);
+  };
   
     useEffect(() => {
       const getUserDetails = async () => {
@@ -112,27 +116,32 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <Text>
-          UserId: {userId}
-          Name: {userName}
-          Phone Number: {userPhoneNumber}
-        </Text>
-      </View>
-      <View>
-        <Text>
-          Phone Numbers: 
-        </Text>
-      </View>
-      <View>
+    <ScrollView style={styles.container}>
+    <View style={styles.userInfoContainer}>
+      <Text style={styles.userInfoText}>
+        UserId: {userId}
+        {'\n'}
+        Name: {userName}
+        {'\n'}
+        Phone Number: {userPhoneNumber}
+      </Text>
+    </View>
+
+    <View style={styles.contactsContainer}>
+      <Text style={styles.contactsHeader}>Emergency Contacts:</Text>
       <FlatList
         data={SOSContacts}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => <Text style={styles.contactItem}>{item}</Text>}
       />
     </View>
-    <View style={styles.container}>
+
+    <View style={styles.buttonContainer}>
+        <Button title="Click here to add SOS Contact" color="#F33A6A" onPress={toggleAddContactVisibility} />
+      </View>
+
+    {isAddContactVisible &&(
+    <View style={styles.editContactsContainer}>
       {phoneNumbers.map((item, index) => (
         <View key={index} style={styles.phoneNumberContainer}>
           <TextInput
@@ -154,43 +163,67 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
           onChangeText={setNewPhoneNumber}
         />
       </View>
-      <View>
-      <Button title="Add Contact" color="#F33A6A" onPress={addPhoneNumber} />
+      <View style={styles.buttonContainer}>
+        <Button title="Add Contact" color="#F33A6A" onPress={addPhoneNumber} />
       </View>
-      <View>
+    
+
+    <View style={styles.buttonContainer}>
       <Button title="Save SOS Contacts" color="#F33A6A" onPress={saveSOSContacts} />
-      </View>
     </View>
-    </ScrollView>
+    </View>)}
+  </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  userInfoContainer: {
+    marginBottom: 20,
+  },
+  userInfoText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  contactsContainer: {
+    marginBottom: 20,
+  },
+  contactsHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  contactItem: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  editContactsContainer: {
+    marginBottom: 20,
+  },
+  phoneNumberContainer: {
+    marginBottom: 10,
+  },
+  phoneNumberText: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 8,
+    borderRadius: 5,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 10,
   },
   input: {
-    flex: 1,
-    padding: 10,
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 8,
+    borderRadius: 5,
   },
-  phoneNumberContainer: {
-    padding: 10,
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '80%',
-  },
-  phoneNumberText: {
-    flex: 1,
+  buttonContainer: {
+    marginBottom: 10,
   },
 });
 
