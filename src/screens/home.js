@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image,Alert} from 'react-native';
+import { View, StyleSheet, Image,Alert ,Linking } from 'react-native';
 import Voice from '@react-native-voice/voice';
 import { Card, CardAction, CardButton, CardImage } from 'react-native-cards';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
@@ -7,7 +7,6 @@ import SOSContactDetailsScreen from './SOSContactDetailsScreen';
 import MapScreen from './mapScreen';
 import videoPlayer from './videoPlayer';
 import Geolocation from '@react-native-community/geolocation';
-import Permissions from 'react-native-permissions';
 
 const dict = ["help", "emergency", "urgent", "help me", "Get away", "Stay back", "Somebody help", "harassed"];
 
@@ -20,9 +19,10 @@ const HomeScreen = ({ route, navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
 
 
-  useEffect(()=>{
-    requestLocationPermission();
-  },[]);
+  useEffect(() => {
+    checkAndRequestLocationPermission();
+  }, []);
+  
   useEffect(() => {
     
     Voice.onSpeechResults = onSpeechResults;
@@ -32,25 +32,65 @@ const HomeScreen = ({ route, navigation }) => {
     };
   }, []);
 
-  const requestLocationPermission = async () => {
+  const checkAndRequestLocationPermission = async () => {
     try {
-      const permissionResult = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-      if (permissionResult === RESULTS.GRANTED) {
-        console.log("calling");
-        getCurrentLocation();
-      } else {
-        const newPermissionResult = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-        if (newPermissionResult === RESULTS.GRANTED) {
-          getCurrentLocation();
+      if (Platform.OS === 'android') {
+        const permissionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+        if (permissionStatus !== RESULTS.GRANTED) {
+          const permissionResponse = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+          if (permissionResponse === RESULTS.GRANTED) {
+            console.log('Location permission granted');
+            getCurrentLocation();
+          } else {
+            console.log('Location permission denied');
+          }
         } else {
-          Alert.alert('Location permission denied');
+          console.log('Location permission already granted');
+          checkLocationService();
+        }
+      } else if (Platform.OS === 'ios') {
+        const permissionStatus = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
+        if (permissionStatus !== RESULTS.GRANTED) {
+          const permissionResponse = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
+          if (permissionResponse === RESULTS.GRANTED) {
+            console.log('Location permission granted');
+            getCurrentLocation();
+          } else {
+            console.log('Location permission denied');
+          }
+        } else {
+          console.log('Location permission already granted');
+          checkLocationService();
         }
       }
-    } catch (error) {
-      console.error('Error checking location permission:', error);
+    } catch (err) {
+      console.warn('Error checking or requesting location permission:', err);
     }
   };
-
+  
+  const checkLocationService = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        // Location service is enabled
+        console.log('Location service is enabled');
+        const { latitude, longitude } = position.coords;
+        const currentLocation = { latitude, longitude };
+        setCurrentLocation(currentLocation);
+      },
+      (error) => {
+        // Location service is disabled
+        console.error('Location service is disabled:', error);
+        // Prompt the user to turn on location services
+        Alert.alert(
+          'Location Service Required',
+          'Please enable location services to use this app.',
+          [{ text: 'OK', onPress: () => Linking.openSettings() }]
+        );
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+  
   const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
@@ -107,14 +147,13 @@ const HomeScreen = ({ route, navigation }) => {
 
   const sendNotification=async()=>{
 try{
-    requestLocationPermission();
    const latitude=currentLocation.latitude;
    const longitude=currentLocation.longitude;
    console.log(latitude);
    console.log(longitude);
    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
    console.log(url);
-   fetch(`https://2441-36-255-87-1.ngrok-free.app/send_notification/${userId}/${latitude}/${longitude}`,
+   fetch(`https://7690-38-9-60-210.ngrok-free.app/send_notification/${userId}/${latitude}/${longitude}`,
       {method:'GET'}) // Replace with your API endpoint
      .then(response => {
        if (!response.ok) {
@@ -137,6 +176,7 @@ try{
     navigation.navigate('SOSContactDetailsScreen',{userId:userId});
   }
   const callMapScreen=()=>{
+    checkAndRequestLocationPermission();
     navigation.navigate('SafeScreen');
   }
   const callVideoPlayer=()=>{
