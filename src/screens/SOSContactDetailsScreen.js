@@ -126,7 +126,6 @@ const SOSContactDetailsScreen = ({ route, navigation }) => {
         </Text>
       </View>
       <View>
-      <Text>User ID: {userId}</Text>
       <FlatList
         data={SOSContacts}
         keyExtractor={(item) => item}

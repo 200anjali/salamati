@@ -86,7 +86,33 @@ const HomeScreen = ({ route, navigation }) => {
     if (containsWordFromDict) {
       console.log("found emergency");
       //comment it you are not running the server
-      sendNotification();
+      // sendNotification();
+      try{
+        requestLocationPermission();
+       const latitude=currentLocation.latitude;
+       const longitude=currentLocation.longitude;
+       console.log(latitude);
+       console.log(longitude);
+       const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+       console.log(url);
+       fetch(`https://b4a8-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
+          {method:'GET'}) // Replace with your API endpoint
+         .then(response => {
+           if (!response.ok) {
+             throw new Error(`HTTP error! Status: ${response.status}`);
+           }
+           return response.json();
+         })
+         .then(data => {
+           console.log('Data received:', data);
+           Alert.alert("Message sent successfully to your sos contacts")
+         })
+         .catch(error => {
+           console.error('Error:', error);
+         });
+        }catch (error) {
+          console.error('Error sending notification:', error);
+        }
     }
   };
 
