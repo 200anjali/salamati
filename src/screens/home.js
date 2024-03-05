@@ -126,7 +126,7 @@ try{
    console.log(longitude);
    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
    console.log(url);
-   fetch(`https://e8fb-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
+   fetch(`https://b4a8-36-255-87-1.ngrok-free.app/send_notification/${userId}/${userName}/${latitude}/${longitude}`,
       {method:'GET'}) // Replace with your API endpoint
      .then(response => {
        if (!response.ok) {
@@ -136,6 +136,7 @@ try{
      })
      .then(data => {
        console.log('Data received:', data);
+       Alert.alert("Message sent successfully to your sos contacts")
      })
      .catch(error => {
        console.error('Error:', error);
